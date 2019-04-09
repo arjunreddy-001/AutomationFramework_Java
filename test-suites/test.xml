@@ -3,6 +3,12 @@
 
 <suite name="Main Suite" parallel="none" verbose="2">
 
+	<listeners>
+          <listener class-name="org.uncommons.reportng.HTMLReporter"/>
+          <listener class-name="org.uncommons.reportng.JUnitXMLReporter"/>
+          <listener class-name="com.arjun.automation.genericLib.TestNGCustomReportListener" />
+    </listeners>
+
 	<parameter name = "browser" value = "chrome" />
 
 	<parameter name = "OS" value = "windows" />
