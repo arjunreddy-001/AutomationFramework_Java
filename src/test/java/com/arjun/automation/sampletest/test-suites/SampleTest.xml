@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+
+<suite name="Sub Suite" preserve-order="true" verbose="2">
+
+	<test name="1_SampleTest">
+		<classes>
+			<class name="com.arjun.automation.sampletest.TestClass" />
+		</classes>
+	</test>
+
+</suite>
