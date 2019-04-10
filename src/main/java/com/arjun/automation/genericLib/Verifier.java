@@ -10,10 +10,10 @@ public class Verifier extends Assertion
 {
 	String finalString;
 
-	private final Map<AssertionError, IAssert> m_errors = Maps.newLinkedHashMap();
+	private final Map<AssertionError, IAssert<?>> m_errors = Maps.newLinkedHashMap();
 
 	@Override
-	protected void doAssert(IAssert a) 
+	protected void doAssert(IAssert<?> a) 
 	{
 		onBeforeAssert(a);
 		try 
@@ -38,7 +38,7 @@ public class Verifier extends Assertion
 		{
 			StringBuilder sb = new StringBuilder("The following asserts failed : ---");
 			boolean first = true;
-			for (Map.Entry<AssertionError, IAssert> ae : m_errors.entrySet()) 
+			for (Map.Entry<AssertionError, IAssert<?>> ae : m_errors.entrySet()) 
 			{
 				if (first) 
 				{

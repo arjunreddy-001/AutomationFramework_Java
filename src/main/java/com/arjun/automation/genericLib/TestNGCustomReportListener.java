@@ -9,6 +9,7 @@ import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+
 import org.testng.IInvokedMethod;
 import org.testng.IReporter;
 import org.testng.IResultMap;
@@ -169,22 +171,18 @@ public class TestNGCustomReportListener implements IReporter
 					lastClassName = className;
 				}
 				Set<ITestResult> resultSet = tests.getResults(method);
-				Date end1;
 				long end = Long.MIN_VALUE;
 				long start = Long.MAX_VALUE;
 				long startMS = Long.MAX_VALUE;
 				String firstLine = "";
 				String reqstarttime = null;
 
-				for (ITestResult testResult : tests.getResults(method)) 
+				for (ITestResult testResult : tests.getResults(method))
 				{
-					if (testResult.getEndMillis() > end) 
+					if (testResult.getEndMillis() > end)
 					{
 						end = testResult.getEndMillis() / 1000;
-						testResult.getEndMillis();
-						end1 = new Date(testResult.getStartMillis());
-						reqstarttime = String.format("%02d:%02d:%02d", end1.getHours(), end1.getMinutes(),
-								end1.getSeconds());
+						reqstarttime = String.format("%02d:%02d:%02d", LocalDateTime.now().getHour(), LocalDateTime.now().getMinute(), LocalDateTime.now().getSecond());
 					}
 					if (testResult.getStartMillis() < start) 
 					{
@@ -196,12 +194,14 @@ public class TestNGCustomReportListener implements IReporter
 					boolean hasThrowable = exception != null;
 					if (hasThrowable) 
 					{
-						String str = Utils.stackTrace(exception, true)[0];
+//						String str = Utils.stackTrace(exception, true)[0];
+						String str = Utils.longStackTrace(exception, true);
 						Scanner scanner = new Scanner(str);
 						firstLine = scanner.nextLine();
 						firstLine = firstLine.replace("java.lang.AssertionError:", "");
 						firstLine = firstLine.replace("---", "<br><br>=>");
 						firstLine = firstLine.replaceAll(";;", "<br><br>=>");
+						scanner.close();
 					}
 				}
 				new SimpleDateFormat("hh:mm:ss");
@@ -253,8 +253,7 @@ public class TestNGCustomReportListener implements IReporter
 
 	public String timeConversion1(long end, long start) 
 	{
-		Date end1 = new Date(end - start);
-		return String.format("%02d:%02d:%02d", end1.getHours(), end1.getMinutes(), end1.getSeconds());
+		return String.format("%02d:%02d:%02d", LocalDateTime.now().getHour(), LocalDateTime.now().getMinute(), LocalDateTime.now().getSecond());
 	}
 
 	private String prefixZeroToDigit(int num) 
@@ -267,7 +266,6 @@ public class TestNGCustomReportListener implements IReporter
 		} 
 		else
 			return "" + number;
-
 	}
 
 	/** Starts and defines columns result summary table */
@@ -297,7 +295,6 @@ public class TestNGCustomReportListener implements IReporter
 			}
 			addon.append(")");
 		}
-
 		return "<b>" + method.getMethodName() + "</b> " + addon;
 	}
 
@@ -395,7 +392,8 @@ public class TestNGCustomReportListener implements IReporter
 	protected void generateExceptionReport(Throwable exception, ITestNGMethod method) 
 	{
 		writer.print("<div class='stacktrace'>");
-		writer.print(Utils.stackTrace(exception, true)[0]);
+//		writer.print(Utils.stackTrace(exception, true)[0]);
+		writer.print(Utils.longStackTrace(exception, true));
 		writer.println("</div>");
 	}
 
