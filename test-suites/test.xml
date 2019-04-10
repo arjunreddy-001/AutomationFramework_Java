@@ -14,6 +14,8 @@
 	<parameter name = "OS" value = "windows" />
 
 	<parameter name = "url" value = "http://demo.guru99.com/v4/" />
+	
+	<parameter name = "title" value = "Guru99 Bank Home Page" />
 
 	<suite-files>
 
