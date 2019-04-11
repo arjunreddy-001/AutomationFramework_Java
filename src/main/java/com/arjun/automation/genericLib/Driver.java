@@ -10,9 +10,12 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.testng.Assert;
 
+import com.arjun.automation.utilities.ReadConfig;
+
 public class Driver 
 {
 	WebDriver driver;
+	ReadConfig readConfig = new ReadConfig();
 	
 	public Driver(WebDriver driver)
 	{
@@ -27,8 +30,8 @@ public class Driver
 		switch(browser)
 		{
 			case "chrome" :
-				
-				System.setProperty("webdriver.chrome.driver", basePath + "\\browser-drivers\\windows\\chrome\\chromedriver.exe");
+					
+				System.setProperty("webdriver.chrome.driver", readConfig.getWindowsChromeDriver() );
 				
 				ChromeOptions options = new ChromeOptions();
 				options.addArguments("--start-maximized");
@@ -46,7 +49,7 @@ public class Driver
 				
 			case "edge" :
 				
-				System.setProperty("webdriver.edge.driver", basePath + "\\browser-drivers\\windows\\edge\\MicrosoftWebDriver.exe");
+				System.setProperty("webdriver.edge.driver", readConfig.getEdgeDriver());
 				
 				driver = new EdgeDriver();
 				driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
@@ -55,7 +58,7 @@ public class Driver
 				
 			case "ie" :
 				
-				System.setProperty("webdriver.ie.driver", basePath + "\\browser-drivers\\windows\\ie\\IEDriverServer.exe");
+				System.setProperty("webdriver.ie.driver", readConfig.getIEDriver());
 				
 				driver = new InternetExplorerDriver();
 				driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
@@ -64,7 +67,7 @@ public class Driver
 				
 			case "firefox" :
 				
-				System.setProperty("webdriver.gecko.driver", basePath + "\\browser-drivers\\windows\\firefox\\geckodriver.exe");
+				System.setProperty("webdriver.gecko.driver", readConfig.getWindowsFirefoxDriver());
 				
 				driver = new FirefoxDriver();
 				driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);

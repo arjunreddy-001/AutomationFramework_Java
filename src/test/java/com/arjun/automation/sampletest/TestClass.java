@@ -11,7 +11,7 @@ public class TestClass extends BaseClass
 	@Test
 	public void LoginToApplication()
 	{
-		LoginPageActions loginAct = new LoginPageActions(driver);
+		LoginPageActions loginAct = new LoginPageActions(driver, logger);
 		
 		Assert.assertTrue(loginAct.login("mngr26593", "abc@123"), "Login to Application failed");
 	}
