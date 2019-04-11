@@ -1,0 +1,4 @@
+# Folders in project to ignore
+/test-output/
+/log/
+/target/
