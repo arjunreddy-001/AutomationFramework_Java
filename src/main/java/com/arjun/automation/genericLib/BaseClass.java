@@ -38,7 +38,7 @@ public class BaseClass
 			if(AttemptNum == maxAttempts)
 			{
 				logger.info("failed to load " + url);
-				Assert.assertEquals(title, driver.getTitle().trim(), "Failed to load URL: " + url + ", WebPage title not matched");
+				Assert.assertEquals(driver.getTitle().trim(), title, "Failed to load URL: " + url + ", WebPage title not matched");
 			}
 		}
 		while((!driver.getTitle().contains(title)));
