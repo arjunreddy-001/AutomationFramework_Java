@@ -1,4 +1,4 @@
-package com.arjun.automation.genericLib;
+package com.arjun.automation.utilities;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -194,8 +194,8 @@ public class TestNGCustomReportListener implements IReporter
 					boolean hasThrowable = exception != null;
 					if (hasThrowable) 
 					{
-//						String str = Utils.stackTrace(exception, true)[0];
-						String str = Utils.longStackTrace(exception, true);
+						String str = Utils.stackTrace(exception, true)[0];
+//						String str = Utils.longStackTrace(exception, true);
 						Scanner scanner = new Scanner(str);
 						firstLine = scanner.nextLine();
 						firstLine = firstLine.replace("java.lang.AssertionError:", "");
@@ -392,8 +392,8 @@ public class TestNGCustomReportListener implements IReporter
 	protected void generateExceptionReport(Throwable exception, ITestNGMethod method) 
 	{
 		writer.print("<div class='stacktrace'>");
-//		writer.print(Utils.stackTrace(exception, true)[0]);
-		writer.print(Utils.longStackTrace(exception, true));
+		writer.print(Utils.stackTrace(exception, true)[0]);
+//		writer.print(Utils.longStackTrace(exception, true));
 		writer.println("</div>");
 	}
 

@@ -14,13 +14,13 @@ public class BaseClass
 	public Logger logger;
 
 	@BeforeClass
-	@Parameters({ "browser", "OS", "url", "title"})
-	public void setup(String browser, String OS, String url, String title)
+	@Parameters({ "browser", "url", "title"})
+	public void setup(String browser, String url, String title)
 	{
 		logger = Logger.getLogger("ebanking");
 		PropertyConfigurator.configure("log4j.properties");
 		
-		driver = new Driver(driver).getDriver(browser, OS);
+		driver = new Driver(driver).getDriver(browser);
 		
 		int maxAttempts = 3;
 		int AttemptNum = 0;

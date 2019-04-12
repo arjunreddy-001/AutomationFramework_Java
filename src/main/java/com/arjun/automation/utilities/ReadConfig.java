@@ -43,4 +43,24 @@ public class ReadConfig
 	{
 		return prop.getProperty("IEDriver");
 	}
+	
+	public String getMacChromeDriver()
+	{
+		return prop.getProperty("macChromeDriver");
+	}
+	
+	public String getMacFirefoxDriver()
+	{
+		return prop.getProperty("macFirefoxDriver");
+	}
+	
+	public String getLinuxChromeDriver()
+	{
+		return prop.getProperty("linuxChromeDriver");
+	}
+	
+	public String getLinuxFirefoxDriver()
+	{
+		return prop.getProperty("linuxFirefoxDriver"); 
+	}
 }

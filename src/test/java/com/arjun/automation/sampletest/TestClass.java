@@ -15,4 +15,16 @@ public class TestClass extends BaseClass
 		
 		Assert.assertTrue(loginAct.login("mngr26593", "abc@123"), "Login to Application failed");
 	}
+	
+	@Test (dependsOnMethods = "LoginToApplication")
+	public void Test2()
+	{
+		Assert.assertTrue(true, "Passed");
+	}
+	
+	@Test (dependsOnMethods = "Test2")
+	public void Test3()
+	{
+		Assert.assertTrue(false, "Passed");
+	}
 }
