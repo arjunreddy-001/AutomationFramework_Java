@@ -1,5 +1,7 @@
 package com.arjun.automation.sampletest;
 
+import java.io.IOException;
+
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -14,17 +16,5 @@ public class TestClass extends BaseClass
 		LoginPageActions loginAct = new LoginPageActions(driver, logger);
 		
 		Assert.assertTrue(loginAct.login("mngr26593", "abc@123"), "Login to Application failed");
-	}
-	
-	@Test (dependsOnMethods = "LoginToApplication")
-	public void Test2()
-	{
-		Assert.assertTrue(true, "Passed");
-	}
-	
-	@Test (dependsOnMethods = "Test2")
-	public void Test3()
-	{
-		Assert.assertTrue(false, "Passed");
 	}
 }

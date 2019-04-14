@@ -5,10 +5,15 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.apache.commons.io.FileUtils;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestResult;
 import org.testng.TestListenerAdapter;
 
+import com.arjun.automation.genericLib.BaseClass;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
@@ -61,8 +66,8 @@ public class ExtentReportsListener extends TestListenerAdapter
 	{
 		logger = extent.createTest(tr.getName()); // create new entry in th report
 		logger.log(Status.FAIL,MarkupHelper.createLabel(tr.getName(), ExtentColor.RED)); // send the passed information to the report with GREEN color highlighted
-		
-		String screenshotPath = System.getProperty("user.dir") + "/test-output/extent-reports/Screenshots/" + tr.getName() + ".png";
+			
+		String screenshotPath = System.getProperty("user.dir") + "/screenshots/" + tr.getName() + ".png";
 		
 		File f = new File(screenshotPath); 
 		

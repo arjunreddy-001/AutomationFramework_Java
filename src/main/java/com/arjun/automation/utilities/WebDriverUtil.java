@@ -110,10 +110,10 @@ public class WebDriverUtil
 	{
 		try 
 		{
-			new WebDriverWait(driver,10).until(ExpectedConditions.alertIsPresent());
+			driver.switchTo().alert();
 			return true;
 		} 
-		catch (TimeoutException e) 
+		catch (NoAlertPresentException e) 
 		{
 			return false;
 		}
@@ -126,16 +126,15 @@ public class WebDriverUtil
 		{
 			switch (action) 
 			{
-
-			case "accept" :
-				
-				driver.switchTo().alert().accept();
-				break;
-
-			case "dismiss" :
-				
-				driver.switchTo().alert().dismiss();
-				break;
+				case "accept" :
+					
+					driver.switchTo().alert().accept();
+					break;
+	
+				case "dismiss" :
+					
+					driver.switchTo().alert().dismiss();
+					break;
 			}
 		} 
 		catch (NoAlertPresentException e) 
@@ -157,5 +156,10 @@ public class WebDriverUtil
 			throw e;
 		}
 		return text;
+	}
+	
+	public void switchToDefaultContent()
+	{
+		driver.switchTo().defaultContent();
 	}
 }
