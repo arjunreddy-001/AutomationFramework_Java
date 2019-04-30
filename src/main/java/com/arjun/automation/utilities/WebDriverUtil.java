@@ -120,18 +120,24 @@ public class WebDriverUtil
 	}
 	
 	/*----performs passed action on the alert----*/
-	public void alertAction(String action) throws NoAlertPresentException 
+	enum Actions
 	{
+		accept,dismiss
+	}
+
+	public void alertAction(String action) throws NoAlertPresentException
+	{
+		Actions act = Actions.valueOf(action);
 		try 
 		{
-			switch (action) 
+			switch (act)
 			{
-				case "accept" :
+				case accept :
 					
 					driver.switchTo().alert().accept();
 					break;
 	
-				case "dismiss" :
+				case dismiss :
 					
 					driver.switchTo().alert().dismiss();
 					break;

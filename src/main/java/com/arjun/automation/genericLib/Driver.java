@@ -13,165 +13,211 @@ import org.testng.Assert;
 
 import com.arjun.automation.utilities.ReadConfig;
 
-public class Driver 
+class Driver
 {
-	WebDriver driver;
-	ReadConfig readConfig = new ReadConfig();
+	private WebDriver driver;
+	private ReadConfig readConfig = new ReadConfig();
 	
-	public Driver(WebDriver driver)
+	Driver(WebDriver driver)
 	{
 		super();
 		this.driver = driver;
 	}
-	
+
+	enum Browsers
+	{
+		chrome,edge,ie,firefox,unknown
+	}
+
+	enum OperatingSystems
+	{
+		windows,mac,linux,unknown
+	}
+
+	private void instantiateChromeDriver()
+	{
+		ChromeOptions options = new ChromeOptions();
+		options.addArguments("--start-maximized");
+		options.addArguments("headless");
+		options.addArguments("window-size=1200x600");
+		options.addArguments("test-type");
+		options.addArguments("--disable-extenstions");
+		options.addArguments("--disable-notifications");
+		options.addArguments("disable-infobars");
+
+		driver = new ChromeDriver(options);
+		driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	}
+
+	private void instantiateEdgeDriver()
+	{
+		driver = new EdgeDriver();
+		driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	}
+
+	private void instantiateIEDriver()
+	{
+		driver = new InternetExplorerDriver();
+		driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	}
+
+	private void instantiateFirefoxDriver()
+	{
+		driver = new FirefoxDriver();
+		driver.manage().timeouts().pageLoadTimeout(30, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+	}
+
 	/** Browser Driver initialization
 	 * 
 	 * @author Arjun Reddy
-	 * @param browser
+	 * @param browserName is the name of browser which hast to be initialized
 	 * @return driver
 	 */
-	
-	public WebDriver getDriver(String browser)
+
+	WebDriver getDriver(String browserName)
 	{
-		String OS = System.getProperty("os.name").toLowerCase();
-		
+		browserName = browserName.toLowerCase();
+		Browsers browser = Browsers.unknown;
+
+		for (Browsers b : Browsers.values())
+		{
+			if (b.name().equals(browserName))
+			{
+				browser = Browsers.valueOf(browserName);
+			}
+		}
+
 		/*
 		 * Determining the Operating System
 		 * on which browser driver need to be initialized
 		 */
-		
-		if(OS.contains("windows") || SystemUtils.IS_OS_WINDOWS)
+
+		String OSName = System.getProperty("os.name").toLowerCase();
+		OperatingSystems OS = OperatingSystems.unknown;
+
+		if(OSName.contains("windows") || SystemUtils.IS_OS_WINDOWS)
 		{
-			OS = "windows";
+			OS = OperatingSystems.windows;
 		}
-		else if(OS.contains("mac") || SystemUtils.IS_OS_MAC)
+		else if(OSName.contains("mac") || SystemUtils.IS_OS_MAC)
 		{
-			OS = "mac";
+			OS = OperatingSystems.mac;
 		}
-		else if(OS.contains("linux") || SystemUtils.IS_OS_LINUX)
+		else if(OSName.contains("linux") || SystemUtils.IS_OS_LINUX)
 		{
-			OS = "linux";
+			OS = OperatingSystems.linux;
 		}
 		else
 		{
-			Assert.assertTrue(false, "Unhandled OS detected for initializing " + browser +" browser, OS Name : " + OS);
+			Assert.fail("Unhandled OS detected for initializing " + browserName +" browser, OS Name : " + OSName);
 		}
-		
-		
+
+
 		/*
 		 * Initializing appropriate browser driver based on Operating System
 		 */
 		
 		switch(browser)
 		{
-			case "chrome" :
+			case chrome :
 					
 				switch(OS)
 				{
-					case "windows" :
+					case windows :
 						
 						System.setProperty("webdriver.chrome.driver", readConfig.getWindowsChromeDriver() );
 						break;
 						
-					case "mac" :
+					case mac :
 						
 						System.setProperty("webdriver.chrome.driver", readConfig.getMacChromeDriver() );
 						break;
 						
-					case "linux" :
+					case linux :
 						
 						System.setProperty("webdriver.chrome.driver", readConfig.getLinuxChromeDriver() );
 						break;
 						
 					default :
 						
-						Assert.assertTrue(false, browser + " browser not available for " + OS + " Operating System (or) Browser initialization unhandled");
+						Assert.fail(browserName + " browser not available for " + OSName + " Operating System (or) Browser initialization unhandled");
 				}
-				
-				ChromeOptions options = new ChromeOptions();
-				options.addArguments("--start-maximized");
-//				options.addArguments("headless");
-//				options.addArguments("window-size=1200x600");
-				options.addArguments("test-type");
-				options.addArguments("--disable-extenstions");
-				options.addArguments("--disable-notifications");
-				options.addArguments("disable-infobars");
-				
-				driver = new ChromeDriver(options);
-				driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+
+				instantiateChromeDriver();
 				
 				break;
 				
-			case "edge" :
-				
+			case edge :
+
 				switch(OS)
 				{
-					case "windows" :
-						
+					case windows :
+
 						System.setProperty("webdriver.edge.driver", readConfig.getEdgeDriver());
 						break;
-						
+
 					default :
-						
-						Assert.assertTrue(false, browser + " browser not available for " + OS + " Operating System (or) Browser initialization unhandled");
+
+						Assert.fail(browserName + " browser not available for " + OSName + " Operating System (or) Browser initialization unhandled");
 				}
-				
-				driver = new EdgeDriver();
-				driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+
+				instantiateEdgeDriver();
 				
 				break;
 				
-			case "ie" :
+			case ie :
 				
 				switch(OS)
 				{
-					case "windows" :
+					case windows :
 						
 						System.setProperty("webdriver.ie.driver", readConfig.getIEDriver());
 						break;
 						
 					default :
 						
-						Assert.assertTrue(false, browser + " browser not available for " + OS + " Operating System (or) Browser initialization unhandled");
+						Assert.fail(browserName + " browser not available for " + OSName + " Operating System (or) Browser initialization unhandled");
 				}
-				
-				driver = new InternetExplorerDriver();
-				driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+
+				instantiateIEDriver();
 				
 				break;
  
-			case "firefox" :
+			case firefox :
 				
 				switch(OS)
 				{
-					case "windows" :
+					case windows :
 						
 						System.setProperty("webdriver.gecko.driver", readConfig.getWindowsFirefoxDriver());
 						break;
 						
-					case "mac" :
+					case mac :
 						
 						System.setProperty("webdriver.gecko.driver", readConfig.getMacFirefoxDriver() );
 						break;
 						
-					case "linux" :
+					case linux :
 						
 						System.setProperty("webdriver.gecko.driver", readConfig.getLinuxFirefoxDriver() );
 						break;
 						
 					default :
 						
-						Assert.assertTrue(false, browser + " browser not available for " + OS + " Operating System (or) Browser initialization unhandled");
+						Assert.fail(browserName + " browser not available for " + OSName + " Operating System (or) Browser initialization unhandled");
 				}
-				
-				driver = new FirefoxDriver();
-				driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+
+				instantiateFirefoxDriver();
 				
 				break;
 				
 			default :
 				
-				Assert.assertTrue(false, "Cannot create instance of " + browser + " driver for Operating System " + OS );
+				Assert.fail("Cannot create instance of " + browserName + " driver for Operating System " + OSName );
 		}
 		return driver;
 	}

@@ -17,7 +17,7 @@ public class TC_AddCustomer_002 extends BaseClass
 	{
 		LoginPageActions loginAct = new LoginPageActions(driver, logger);
 		DashboardPageActions dp = new DashboardPageActions(driver, logger);
-		HashMap<String, String> CustomerCredentials = new HashMap<>();
+		HashMap<String, String> CustomerCredentials = new HashMap<String, String>();
 		
 		Assert.assertTrue(loginAct.login("mngr26593", "abc@123"), "Login to Application failed");
 		
